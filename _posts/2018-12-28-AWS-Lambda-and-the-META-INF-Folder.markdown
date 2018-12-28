@@ -40,9 +40,14 @@ After some quick back and forth, I learned the quite a bit about Lambda.  When l
 My AWS correspondent then told me
 
 {% highlight quote %}
-I wrote a test Lambda function to extract the contents under /var/task to check for what content lambda stores on the cloud environment when it explodes the supplied deployment package(.jar file in our case).
+I wrote a test Lambda function to extract the contents under /var/task 
+to check for what content lambda stores on the cloud environment when 
+it explodes the supplied deployment package(.jar file in our case).
 
-From the above investigation, I observed that Lambda doesn't avail META-INF(where manifest files are stored) folder on the container under any path that is accessible during runtime. Hence, the lambda function is unavailable to read the manifest file and read for its contents.
+From the above investigation, I observed that Lambda doesn't avail 
+META-INF(where manifest files are stored) folder on the container under 
+any path that is accessible during runtime. Hence, the lambda function 
+is unavailable to read the manifest file and read for its contents.
 {% endhighlight %}
 
 #### AWS Work-Around
