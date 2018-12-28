@@ -39,11 +39,11 @@ After some quick back and forth, I learned the quite a bit about Lambda.  When l
 
 My AWS correspondent then told me
 
-{% raw %}
+{% highlight quote %}
 I wrote a test Lambda function to extract the contents under /var/task to check for what content lambda stores on the cloud environment when it explodes the supplied deployment package(.jar file in our case).
 
 From the above investigation, I observed that Lambda doesn't avail META-INF(where manifest files are stored) folder on the container under any path that is accessible during runtime. Hence, the lambda function is unavailable to read the manifest file and read for its contents.
-{% endraw %}
+{% endhighlight %}
 
 #### AWS Work-Around
 So Lambda completely ignores the META-INF folder when unpacking the jar.  Luckily, our AWS correspondent did give a work-around. It was suggested to (assuming Maven is being used), use the Shade plugin to create a Manifest in a custom location. Then during the jar build, the shaded plugin will copy the content of the manifest file to the actual manifest.mf. Next, add a custom manifest.mf file under src/main/resources. This file will contain the contents that are to be copied.  This works because when the jar is unpacked, the manifest.mf file will be extracted to /var/task/resources and can be accessed by using the absolute path.  This solution was talked about earlier and I was not a fan of the solution.
