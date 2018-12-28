@@ -56,4 +56,5 @@ So Lambda completely ignores the META-INF folder when unpacking the jar.  Luckil
 ### Final Solution
 My final solution included using the Lambda Environment variable "AWS_LAMBDA_FUNCTION_VERSION" which returns the Lambda version number.  We decided to use this version as our exposed version number because it prevents our internal versioning system from possibly being exposed.
 
+### Take Away
 The biggest learning point of this adventure is that Lambda does not extract the META-INF folder anywhere when unpacking the jar file.
