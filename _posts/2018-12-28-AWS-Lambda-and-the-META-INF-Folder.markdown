@@ -20,9 +20,9 @@ this.getClass.getPackage.getImplementationVersion
 {% endhighlight %}
 
 ### Problem and some attempted solutions
-This worked on my (and other's) local JDK.  After doing some searching, I found other's who had similar issues with reading information from their MANIFEST; there was a post on [StackOverflow]: https://stackoverflow.com/questions/35639561/aws-lambda-access-to-meta-inf-manifest-mf and the [Amazon Forums]: https://forums.aws.amazon.com/thread.jspa?threadID=226233
+This worked on my (and other's) local JDK.  After doing some searching, I found other's who had similar issues with reading information from their MANIFEST; there was a post on [StackOverflow](https://stackoverflow.com/questions/35639561/aws-lambda-access-to-meta-inf-manifest-mf) and the [Amazon Forums](https://forums.aws.amazon.com/thread.jspa?threadID=226233)
 
-So I decided to file a support ticket with Amazon.  But while waiting, I decided to try and find some other solutions. Other solutions (found from StackOverflow posts) included reading the file directly by pointing to the Manifest file and others that included writing a file into the resources directory (e.g. src/main/resources/MANIFEST.MF).  I was not a fan of this solution as using the getImplementationVersion method was very clean.  A coworker suggested to use the [jcabi-manifests]: https://manifests.jcabi.com/ library.  I used this temporary solution as the implementation was nearly as clean as the getImplementationVersion method.
+So I decided to file a support ticket with Amazon.  But while waiting, I decided to try and find some other solutions. Other solutions (found from StackOverflow posts) included reading the file directly by pointing to the Manifest file and others that included writing a file into the resources directory (e.g. src/main/resources/MANIFEST.MF).  I was not a fan of this solution as using the getImplementationVersion method was very clean.  A coworker suggested to use the [jcabi-manifests](https://manifests.jcabi.com/) library.  I used this temporary solution as the implementation was nearly as clean as the getImplementationVersion method.
 
 {% highlight java %}
 val version: String = Manifests.read("Implementation-Version")
