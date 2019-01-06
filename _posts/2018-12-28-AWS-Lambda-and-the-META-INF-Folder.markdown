@@ -33,7 +33,7 @@ Using the jcabi-manifests solution worked locally and on AWS Lambda; so this sol
 ### AWS Provides some Insight
 After some quick back and forth, I learned the quite a bit about Lambda.  When loading a Jar file to Lambda, I was told that the jar is disassembled, with the following distribution -
 
-- class files in /var/task/<package>
+- class files in /var/task/\<package\>
 - libraries in /var/task/lib
 - properties and other config files in /var/task/resources
 
