@@ -25,6 +25,7 @@ github_username:  cahilltr
 # Build settings
 markdown: kramdown
 theme: minima
+google_analytics: UA-143247338-1
 plugins:
   - jekyll-feed
 
