@@ -46,17 +46,46 @@ For the purposes of this blog, I'll say I get a specialty drink once a week, to 
 
 The specialty drink costs $1.50 and I'll normally tip $2.00, so the total cost of the drink is now $3.50.
 
-`($3.50 * 22 weeks (as of 7/2)) + $200 = $277.00`
+Now we're not actually saving $3 a cup.  Rather we are saving: `$3 - ($3.5/5 days) = $2.3 per day`.
 
-That means, I'd have spent $277.00 since the purchase date.
+It's just simple division after that to determine how many cups we'll need to break even, `200/2.3 = 86.9 cups or 87 cups`.
 
-So, this bring us back to the above calculations of number of cups to break even:
-`$277/$3.00 = 92.33 cups or 93 cups`.
-
-Excluding weekends, this means the break even date is now 6/12.
+Excluding weekends, this means the break even date is now 6/4.
 Now, if I  include 50% of weekends, we'll add 10 days (it's 19 weeks from 2/1 to 6/12). Which makes the break even date 5/30.
 
-Or does it?  We need to subtract another $7.00 to our calculation to account for the reduced time (10 days ~= 2 weeks). This then makes our total $270 and takes 90 cups. to break even. This brings the break even date in 3 more days.  Which then make our final break even date, including weekends, 5/27
+Or does it?  Now, since we add in getting 6 cups of coffee every other week, rather than the original 5, we'll need to get fancy.  Since the cost/savings per day fluctuates every other week, we'll need to account for that using a piecewise function.  On 5-day weeks, our savings per day is `$3 - ($3.5/5) = $2.3`, while on our 6-day weeks, our savings per day is `$3 - ($3.5/6) = $2.42`.
+
+The resulting piecewise function, in terms of the amount saved per day, is the following:
+```text
+f(x) =
+  2.42, if (x % 11) = 0
+  2.42, if (x % 11) > 5
+  2.3, if (x % 11) <= 5
+```
+
+To find the number of cups to break even, we'll brute force the calculation.  We need to brute force this because I'm unaware of how to solve for `x` when using a piecewise function and it's super easy to write some quick code to do the heavy lifting.  Basically, instead of dividing like we did above, we'll simply add the saved amount value of the piecewise function, until the accumulated savings is greater than or equal to the $200.
+
+```scala
+def findValue(x: Int): Double = {
+  if ((x % 11) == 0) {
+    2.42
+  } else if ((x % 11) > 5) {
+    2.42
+  } else {
+    2.3
+  }
+}
+
+var acc: Double = 0
+var cups: Int = 1
+while (acc < 200.00) {
+  acc = acc + findValue(cups)
+  cups = cups + 1
+}
+println(cups)
+```
+
+The above function prints out 86, meaning 86 cups to break even.  Therefore our break even date with 50% of weekends included is 6/5.  It doesn't seem like the piecewise function did much.
 
 ### Coffee drank to cover cost of cup and driving every day
 We cannot forget that I have to drive to the coffee shop, they don't deliver directly to me (yet).  So we need to include the price of gas.  Gas in my area has been around $2.45 a gallon, so we'll use the number to make things simple.
@@ -89,7 +118,7 @@ f(x) =
   1.53, if (x % 11) <= 5
 ```
 
-To find the number of cups to break even, we'll brute force the calculation.  We need to brute force this because I'm unaware of how to solve for `x` when using a piecewise function and it's super easy to write some quick code to do the heavy lifting.  Basically, instead of dividing like we did above, we'll simply add the saved amount value of the piecewise function, until the accumulated savings is greater than or equal to the $200.
+Again, we'll brute force the caculation, using similar code (only the value differ, factoring in driving cost).
 
 ```scala
 def findValue(x: Int): Double = {
@@ -112,6 +141,8 @@ println(cups)
 ```
 
 This results in 123 cups, which makes the break even date 7/25.
+
+The piecewise function helps quite a bit more here, as the added cost of driving drags the calculation out.
 
 To help visualize the piecewise function, I used [desmos.com, a web-based graphing tool](https://www.desmos.com/calculator/woigw9qykh), which was invaluable.
 
