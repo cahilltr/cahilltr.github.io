@@ -81,6 +81,19 @@ When you refresh/visit the new Redash instance you should see the log in screen,
 Once you log in, you should see something like:
 <p style="text-align:center"><img width="750" height="275" src="/images/posts/redash-upgrade/hard-refresh-redash-with-your-data.png"/></p>
 
+## Mail settings
+After finishing the steps above, Redash worked well, but there was a warning `It looks like your mail server isn't configured. Make sure to configure it for the invite emails to work.`.  I'd copy and pasted the email settings from the previous installation and could not figure out why emails were not working.  I first tested with the command `sudo docker-compose run --rm server manage send_test_mail <email_address>` to ensure that it wasn't a bad warning. This resulted in an `Socket.error: [Errno 99] Cannot assign requested address` error, so the warning was correct.
+
+After many attempts to solve this, I found a solution from the [Redash forums](https://discuss.redash.io/t/mail-setup-in-docker-compose-version-raises-error/2716/8).  The solution appeared to be to remove double quotes.  I also had to move any comments off of the same line as the variable declaration. Otherwise, the entire line was read, resulting in the comment being included in the variable value.  After restarting the containers with,
+
+```bash
+sudo docker-compose down
+sudo docker-compose up -d
+```
+to pull in the new environment variables, the warning went away.  Then I used the `send_test_mail` command to test the mail settings and the test was successful.
+
+For as simple as the solution was, solving these email took way longer than needed.
+
 # Summary
 
 At first, I was intimidated by the prospect of this upgrade, but once I realized this was mostly copying the database, the upgrade became simple.  You could probably point both instance to an actual Postgresql database hosted not in Docker, but I chose not too.
